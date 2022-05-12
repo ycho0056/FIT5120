@@ -37,7 +37,7 @@ table, th, td {
 <script>
     jQuery(function($) {
         
-            let cookie_key = 'fav-food'
+            let cookie_key = 'fav-food';
             let cookie_food = $.cookie(cookie_key);
             $('.fav-list').html(cookie_food);
     });
