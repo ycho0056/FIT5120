@@ -1,38 +1,3 @@
-
-<?php
-    echo "<script src='https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js'></script>
-
-    <script>
-        jQuery(function($){
-            let food_list = $.cookie('list');
-            const array = food_list.split(',');
-    
-            $('.test').text(array[1]);
-        });
-    </script>
-    <h2 class='test'></h2>";
-?>
-
-
-
-<?php
-    $list = $_COOKIE['list'];
-    $recommendation = $_COOKIE['recommendation']
-    echo $recommendation;
-    echo gettype($list);
-    $list_array = explode(",",$list);
-    $arraylenght = count($list_array);
-    for($i = 1; $i < $arraylenght; $i++) {
-
-        $id = $list_array[$i];
-        echo $list_array[$i];
-    
-        echo "</ br>";
-
-    
-    }
-?>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -156,7 +121,7 @@
 <?php
 		$date = date("Y-m-d");
 		echo "<div class='invoice-box'>
-        		<table cellpadding='0' cellspacing='0'>
+        		<table cellpadding='0' cellspacing='0' id='myTable'>
 				<tr class='top'>
 					<td colspan='2'>
 						<table>
@@ -179,6 +144,7 @@
 					<td>Calories</td>
 
 					<td>value</td>
+                    <td></td>
 				</tr>';
 				if(!isset($_COOKIE['list'])){
 					if(!isset($_COOKIE['recommendation'])){
@@ -215,8 +181,11 @@
 									<td>$row->Food_Name</td>
 			
 									<td>$row->Energy_kJ</td>
+                                    <td><button data =$id id='delete' onclick='deleteRow(this)'>Delete</button></td>
+                                   
 									</tr>";
-									//<td><input type='button' value='Delete' onclick='deleteRow(this)'></td>
+                                    
+									
 									$engergy = (int)str_replace(',','',$row->Energy_kJ);
 								}
 							}
@@ -224,11 +193,11 @@
 						}
 						$recommendation = $_COOKIE['recommendation'];
 						echo "<tr class='total'>
-										<td>Total:  $calories</td>
+										<td>Total:  $calories KJ</td>
 									</tr>";
 						
 						echo "<tr class='total'>
-									<td>Recommendation: $recommendation</td>
+									<td>Recommendation: $recommendation KJ</td>
 								</tr>";
 						
 						if($calories<=1.1*$recommendation and $calories >=0.9*$recommendation)
@@ -255,6 +224,30 @@
 				}
 			   	echo '</table>';
 			echo '</div>';
+        
+        echo "<script>
+        function deleteRow(r) {
+          var i = r.parentNode.parentNode.rowIndex;
+          document.getElementById('myTable').deleteRow(i);
+        }
+        </script>";
+
+        echo "<script src='https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js'></script>
+        <script>
+        jQuery(function($){
+            $('#delete').click(function(){
+                let foodid = $(this).attr('data');
+                let food_list = $.cookie('list');
+                var array = food_list.split(',');
+                for(let i=1;i<array.length;i++){
+                    $('.test').text(array[i]);
+
+                }
+
+            });
+        });
+        </script>
+        <h2 class='test'></h2>";
 ?>
 </body>
 </html>

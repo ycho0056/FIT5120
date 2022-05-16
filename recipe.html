@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+.search{
+	font-size:17px;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border:none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  color:#000000;
+  border-radius: 0px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    -ms-transform: scale(1.2); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.2);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #FC5F5F;
+  color:#000000;
+      -ms-transform: scale(1.2); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.2);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+      -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 6; /* Firefox */
+    column-count: 2;
+}
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #FC5F5F;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+</style>
+</head>
+<body>
+<center>
+<form action="">
+    <input type="text"  placeholder='search for Recipe'>
+    <input type="submit" value='search' >
+</form>
+</center>
+<br>
+<h3>Refine search by Diet, Allergen Alert</h3>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Diets')" id="defaultOpen">Diets&nbsp&nbsp;</button>
+  <button class="tablinks" onclick="openCity(event, 'Allergies')">Allergies</button>
+</div>
+
+<div id="Diets" class="tabcontent">
+<br>
+<label class="container">Vegetarian
+  <input type="checkbox" value="vegetarian" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Vegan
+  <input type="checkbox" value="vegan" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Paleo
+  <input type="checkbox" value="paleo" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">High-Fiber
+  <input type="checkbox" value="high-fiber" name="diet">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">High-Protein
+  <input type="checkbox" value="high-protein" name="diet">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Low-Carb
+  <input type="checkbox" value="low-carb" name="diet">
+  <span class="checkmark"></span>
+</label>
+<br>
+
+<label class="container">Low-Fat
+  <input type="checkbox" value="low-fat" name="diet">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Low-Sodium
+  <input type="checkbox" value="low-sodium" name="diet">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Immunity
+  <input type="checkbox" value="immuno-supportive" name="health">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Low-Sugar
+  <input type="checkbox" value="sugar-conscious" name="health">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Alcohol-Free
+  <input type="checkbox" value="alcohol-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Balanced
+  <input type="checkbox" value="balanced" name="diet">
+  <span class="checkmark"></span>
+</label>
+</div>
+
+<div id="Allergies" class="tabcontent">
+  <br>
+<label class="container">Gluten
+  <input type="checkbox" value="gluten-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Dairy
+  <input type="checkbox" value="dairy-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Eggs
+  <input type="checkbox" value="egg-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Soy
+  <input type="checkbox" value="soy-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Wheat
+  <input type="checkbox" value="wheat-free" name="health">
+  <span class="checkmark"></span>
+</label>
+<br>
+<label class="container">Fish
+  <input type="checkbox" value="fish-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Shellfish
+  <input type="checkbox" value="shellfish-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+<label class="container">Tree Nuts
+  <input type="checkbox" value="tree-nut-free" name="health">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Peanuts
+  <input type="checkbox" value="peanut-free" name="health">
+  <span class="checkmark"></span>
+</label>
+
+</div>
+
+<section id='showRecipe' class='row pt-5   '></section>
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+<script>
+    form = document.querySelector('form')
+
+    form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    inpValue = e.target.querySelector('input').value
+    fetchData4mAPI(inpValue)
+    })
+
+    async function fetchData4mAPI(inpVal) {
+    app_id = 'c95992b7';
+    app_key = '2137a5b672f2325d6e549d70393b6b53';
+    baseURl = `https://api.edamam.com/search?q=${inpVal}&app_id=${app_id}&app_key=${app_key}`;
+    result = await fetch(baseURl);
+    datas = await result.json()
+    console.log(datas)
+    genrateHTML(datas.hits);
+    }
+
+    function genrateHTML(results) {
+    showINHTML = '';
+    results.map(result => {
+        showINHTML += `
+        <div class="col-3 my-3">
+        <div class="card">
+            <div class="card-body">
+                <img src="${result.recipe.image}" alt="" class='img-fluid'>
+                <h6 class=' text-center my-2 text-truncate'>${result.recipe.label}</h6>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class=' align-self-stretch mx-auto my-auto'>Calories: ${result.recipe.calories.toFixed(2)}</h6>
+                    <a href='${result.recipe.url}' class='btn btn-link align-self-stretch'>View Recipe</a>
+                </div>
+            </div>
+        </div>
+        </div> 
+        `
+        document.querySelector('#showRecipe').innerHTML = showINHTML;
+
+    })
+    }
+</script>
+</body>
+</html> 
