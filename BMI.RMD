@@ -1,0 +1,253 @@
+---
+title: "BMI"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+library(dplyr)
+```
+
+
+
+
+```{r}
+library(tidyr)
+```
+
+```{r}
+library(dplyr)
+```
+
+
+```{r}
+library(ggplot2)
+
+```
+
+```{r}
+library(plotly)
+```
+
+```{r}
+library(htmlwidgets)
+```
+
+
+```{r}
+full <- read.csv("tab2.csv", encoding = "UTF-8")
+full
+```
+
+```{r}
+full[full == "n.p."] <- 0
+full
+```
+```{r}
+full[full == ". ."] <- 0
+full
+```
+
+
+
+```{r}
+temp3 <- full
+```
+
+```{r}
+full<-temp3
+full
+```
+
+```{r}
+colnames(full)[4] <- "BMI_state"
+colnames(full)[2] <- "Bx"
+colnames(full)[9] <- "Value"
+colnames(full)[11] <- "Percentage"
+colnames(full)[6] <- "Group"
+full
+```
+
+
+```{r}
+col_conv <- c(9,11)   
+
+```
+
+```{r}
+df <- full                                            # Duplicate data
+df[ , col_conv] <- lapply(full[ , col_conv],  # Convert data
+                                       function(x){ as.numeric(as.character(gsub(",", "", x))) })
+df    
+```
+
+```{r}
+df$Percentage <- sprintf("%1.2f%%", df$Percentage)
+df
+```
+
+
+```{r}
+#a = filter(df,Topic == "Method of birth")
+df_age <- df[df$Topic == 'Maternal age' & df$Year== 2019 & df$Current.Trend == "Current", ]
+
+
+df_age
+```
+
+
+```{r}
+df_age <- df_age[df_age$BMI_state!="Not stated" & df_age$BMI_state!= "Total" & df_age$BMI_state!="Total stated" & df_age$Group !="Not stated",]
+df_age
+```
+
+```{r}
+level_order <- c('Underweight', 'Normal weight', 'Overweight','Obese')
+BMI <- factor(df_age$BMI_state, level = level_order)
+age_plot<- ggplot(df_age, aes(fill=BMI, y=Value, x=factor(Group,level = c('Under 20', '20-24', '25-29',"30-34","35-39","40 and over","Total")),label =Percentage))+
+  geom_bar(position="fill", stat="identity",width=0.7)+
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Age Group", title ="Maternal Age")+
+ guides(fill=guide_legend(title="BMI state"))+
+  theme_bw() 
+```
+
+
+```{r}
+ggplotly(age_plot,tooltip = c("Percentage","BMI"))
+```
+
+
+```{r}
+age<-ggplotly(age_plot,tooltip = c("Percentage","BMI"))
+```
+
+```{r}
+saveWidget(age, file = "age.html")
+```
+
+By state
+```{r}
+#df_state <-filter(df,Topic == "State and territory of birth")
+df_state<-df[df$Topic == "State and territory of birth" & df$Year== 2019 & df$Current.Trend == "Current", ]
+df_state
+```
+
+
+```{r}
+df_state <- filter(df_state, BMI_state !="Not stated")
+df_state <- filter(df_state, BMI_state !="Total")
+df_state <- filter(df_state, BMI_state !="Total stated")
+df_state <-filter(df_state, Group !="Not stated")
+df_state
+```
+
+```{r}
+BMI <- factor(df_state$BMI_state, level = level_order)
+state_plot<- ggplot(df_state, aes(fill=BMI, y=Value, x=factor(Group,level = c('NSW', 'Vic', 'Qld',"WA","SA","Tas","ACT","NT","Australia")),label = Percentage))+
+  geom_bar(position="fill", stat="identity", width=0.7)+
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "State", title ="State and territory")+
+ guides(fill=guide_legend(title="BMI state"))+
+  theme_bw() 
+```
+
+
+
+```{r}
+ggplotly(state_plot,tooltip = c("Percentage","BMI"))
+```
+
+```{r}
+state_p<- ggplotly(state_plot,tooltip = c("Percentage","BMI"))
+saveWidget(state_p, file = "state.html")
+```
+
+Method of birth
+
+```{r}
+df_method <-df[df$Topic == "Method of birth" & df$Year== 2019 & df$Current.Trend == "Current", ]
+df_method
+```
+
+```{r}
+df_method <- filter(df_method, BMI_state !="Not stated")
+df_method <- filter(df_method, BMI_state !="Total")
+df_method <- filter(df_method, BMI_state !="Total stated")
+df_method <-filter(df_method, Group !="Not stated")
+df_method
+```
+
+```{r}
+BMI <- factor(df_method$BMI_state, level = level_order)
+method_plot<- ggplot(df_method, aes(fill=BMI, y=Value, x=factor(Group,level = c('Vaginal (non-instrumental)', 'Vaginal (forceps)','Vaginal (vacuum)',"Caesarean section","Total")),label = Percentage))+
+  geom_bar(position="fill", stat="identity",width=0.7)+
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Birth Method", title ="Method of Birth")+
+ guides(fill=guide_legend(title="BMI state"))+
+  theme_bw() 
+```
+
+
+```{r}
+ggplotly(method_plot,tooltip = c("Percentage","BMI"))
+```
+```{r}
+method_p<- ggplotly(method_plot,tooltip = c("Percentage","BMI"))
+saveWidget(method_p, file = "method.html")
+```
+
+Parity
+```{r}
+df_parity <-df[df$Topic == "Parity" & df$Year== 2019 & df$Current.Trend == "Current", ]
+df_parity 
+```
+
+```{r}
+df_parity <- filter(df_parity, BMI_state !="Not stated")
+df_parity <- filter(df_parity, BMI_state !="Total")
+df_parity <- filter(df_parity, BMI_state !="Total stated")
+df_parity <-filter(df_parity, Group !="Not stated")
+df_parity
+```
+```{r}
+BMI <- factor(df_parity$BMI_state, level = level_order)
+parity_plot<- ggplot(df_parity, aes(fill=BMI, y=Value, x=factor(Group,level = c('None', 'One','Two',"Three","Four or more","Total")),label = Percentage))+
+  geom_bar(position="fill", stat="identity",width=0.7)+
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Parity", title ="Parity")+
+ guides(fill=guide_legend(title="BMI state"))+
+  theme_bw() 
+```
+
+```{r}
+ggplotly(parity_plot,tooltip = c("Percentage","BMI"))
+```
+
+```{r}
+parity_p<- ggplotly(parity_plot,tooltip = c("Percentage","BMI"))
+saveWidget(parity_p, file = "parity.html")
+```
+
